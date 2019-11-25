@@ -1,25 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react';
+import KlesunProductionsIntro from './Components/Intro';
+import MainGame from "./Components/Game";
 
-function App() {
+function App({skipIntro}) {
+  const [showIntro, setShowIntro] = useState(skipIntro ? false : null);
+  const [introEnded, setIntroEnded] = useState(skipIntro ? true : null);
+
+  useEffect( () => {
+    if (!skipIntro)
+    {
+      setShowIntro(true);
+      setIntroEnded(false);
+
+      setTimeout( () => {
+        setShowIntro(false);
+        setIntroEnded(true);
+      }, 6000);
+    }
+  }, [] );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      {
+        showIntro
+          ? (
+            <KlesunProductionsIntro />
+          )
+          : null
+      }
+      {
+        !showIntro && introEnded
+          ? (
+            <MainGame />
+          )
+          : null
+      }
+    </React.Fragment>
   );
 }
 

@@ -1,0 +1,44 @@
+
+
+.introMain {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background: #000;
+
+  .introMainContainer {
+    display: flex;
+    flex-grow: 1;
+    padding: 32px ;
+    justify-content: center;
+    align-items: center;
+
+    .introTitleBlock {
+      display: flex;
+      opacity: 0;
+      animation-name: fadeIntro;
+      animation-delay: 1s;
+      animation-duration: 4s;
+      animation-fill-mode: forwards;
+      animation-iteration-count: 1;
+
+      & > h1 {
+        color: #fff;
+      }
+
+      @keyframes fadeIntro {
+        0% {
+          opacity: 0.01;
+        }
+
+        45%, 55% {
+          opacity: 0.9;
+        }
+
+        100% {
+          opacity: 0;
+        }
+      }
+    }
+  }
+}

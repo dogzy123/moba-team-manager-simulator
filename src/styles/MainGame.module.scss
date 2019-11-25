@@ -1,0 +1,284 @@
+
+.main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+
+  .mainContainer {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    z-index: 10;
+
+    .mainHeader {
+      flex-basis: 20%;
+      display: flex;
+
+      .headerColPlayers {
+        flex-basis: 45%;
+        display: flex;
+
+        .headerColLeftContainer {
+          justify-content: space-between;
+        }
+      }
+
+      .headerCol {
+        flex: 1 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .playerStats {
+        display: flex;
+        align-items: flex-start;
+        flex-shrink: 1;
+        font-family: 'Baloo Bhaina', cursive;
+        font-size: 32px;
+        color: #fff;
+
+        .days {
+          min-width: 82px;
+        }
+
+        .dayProgress {
+          display: flex;
+          align-items: center;
+          padding: 0 12px;
+          position: relative;
+          margin: 14px 0;
+
+          & > svg {
+            height: 32px;
+            width: 32px;
+          }
+        }
+
+        .costs {
+
+          .cost {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 12px;
+            animation-name: costFade;
+            animation-duration: 4.5s;
+            animation-fill-mode: forwards;
+            animation-iteration-count: 1;
+
+            .costAmount {
+              font-weight: 600;
+              color: #e25816;
+              padding: 0 8px;
+            }
+
+            .costDescription {
+              font-size: 14px;
+              color: #6b6b6b;
+            }
+
+            @keyframes costFade {
+              0% {
+                opacity: 0;
+              }
+
+              15%, 75% {
+                opacity: 1;
+              }
+
+              100% {
+                opacity: 0.01;
+              }
+            }
+          }
+        }
+      }
+
+      .headerColLeftContainer {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+        flex-grow: 1;
+      }
+
+      .playerCard {
+        flex-basis: 18%;
+        display: flex;
+        flex-direction: column;
+
+        .playerInfo {
+          flex-basis: 75%;
+          padding: 4px;
+          display: flex;
+        }
+
+        .playerPosition {
+          flex-basis: 25%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          cursor: default;
+          user-select: none;
+
+          & > h3 {
+            margin: 0;
+          }
+
+          .positionDescription {
+            font-size: 13px;
+            font-weight: 400;
+            color: #525252;
+          }
+        }
+
+        &.empty {
+          .playerInfo {
+            border: 2px dashed #772d2d;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: border-color 0.2s linear, background-color 0.2s linear;
+
+            &:hover {
+              border-color: #772d2d;
+              background-color: #ff9a9a;
+            }
+          }
+        }
+      }
+    }
+
+    .mainBody {
+      flex-grow: 1;
+      display: flex;
+    }
+
+    .mainSectionContainer {
+      flex-grow: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: row;
+      position: relative;
+    }
+
+    .sweetterBlock {
+      position: absolute;
+      bottom: 0;
+      left: 8px;
+      width: 570px;
+      height: 530px;
+      background: #fff;
+      border: 1px solid rgb(200, 219, 232);
+      display: flex;
+      flex-direction: column;
+      transition: height 0.2s ease-out;
+      z-index: 1050;
+
+      &.collapsed {
+        height: 52px;
+
+        .sweetterBody {
+          height: 0;
+        }
+      }
+
+      .sweetterImg {
+        object-fit: cover;
+        height: 32px;
+        width: 32px;
+        margin-right: 8px;
+      }
+
+      .sweetterHeader {
+        height: 52px;
+        border-bottom: 1px solid rgb(200, 219, 232);
+        display: flex;
+        cursor: pointer;
+
+        .sweetterHeaderContainer {
+          padding: 0 16px;
+          display: flex;
+          flex-grow: 1;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+
+          .sweetterHeaderTitle {
+            font-size: 18px;
+            color: rgb(29, 161, 242);
+            user-select: none;
+          }
+
+          .sweetterHeaderCloseBlock {
+            position: absolute;
+            right: 32px;
+            display: flex;
+            align-items: center;
+            color: #97b9ce;
+
+            &:hover {
+              color: #6bb5e2;
+            }
+          }
+        }
+      }
+
+      .sweetterBody {
+        height: 100%;
+
+        .sweetterBodyContainer {
+          height: 100%;
+          width: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+
+          .sweet {
+            min-height: 130px;
+            border-bottom: 1px solid rgb(200, 219, 232);
+            display: flex;
+
+            &:hover {
+              background: #f5f5f5;
+            }
+
+            .sweetContainer {
+              display: flex;
+              flex-grow: 1;
+              flex-direction: column;
+              padding: 8px 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .shadowText {
+    text-shadow: 1px 1px 0 #000,
+    -1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000,
+    0px 1px 0 #000,
+    0px -1px 0 #000,
+    -1px 0px 0 #000,
+    1px 0px 0 #000,
+    2px 2px 0 #000,
+    -2px 2px 0 #000,
+    2px -2px 0 #000,
+    -2px -2px 0 #000,
+    0px 2px 0 #000,
+    0px -2px 0 #000,
+    -2px 0px 0 #000,
+    2px 0px 0 #000,
+    1px 2px 0 #000,
+    -1px 2px 0 #000,
+    1px -2px 0 #000,
+    -1px -2px 0 #000,
+    2px 1px 0 #000,
+    -2px 1px 0 #000,
+    2px -1px 0 #000,
+    -2px -1px 0 #000;
+  }
+}
