@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addCost, initPlayers, incrementDays, setPause, addDayProgress} from "../actions/main";
 import {CollapseIcon, ExpandIcon} from "./Icons";
 import AnimatedBackground from "./AnimatedBackground";
+import CreateProfile from "./CreateProfile";
 
 const FindPlayerModal = React.lazy( () => {
   return import('./FindPlayerModal');
@@ -18,7 +19,7 @@ const FindPlayerModal = React.lazy( () => {
 function PlayerStats() {
   const {days, money, currency, costs, paused, dayProgress} = useSelector( state => ({
     days: state.days,
-    money: state.money,
+    money: state.profile.money,
     currency: state.currency,
     costs: state.costs,
     paused: state.paused,
@@ -83,11 +84,12 @@ function PlayerStats() {
 
 function Game () {
   const dispatch = useDispatch();
-  const {players, days, paused, dayProgress} = useSelector( state => ({
+  const {players, days, paused, dayProgress, profile} = useSelector( state => ({
     players: state.players,
     days: state.days,
     paused: state.paused,
     dayProgress: state.dayProgress,
+    profile: state.profile,
   }) );
 
   const [findPlayerModal, setFindPlayerModal] = useState(false);
@@ -135,6 +137,17 @@ function Game () {
     }
   }, [days]);
 
+  useEffect( () => {
+    if (findPlayerModal)
+    {
+      document.getElementById('dtms-root').classList.add(styles.modalOpen);
+    }
+
+    return () => {
+      document.getElementById('dtms-root').classList.remove(styles.modalOpen);
+    };
+  }, [findPlayerModal] );
+
   const findPlayer = (position) => {
     setFindPlayerModal(true);
     dispatch(setPause(true));
@@ -143,6 +156,11 @@ function Game () {
   return (
     <div className={styles.main}>
       <AnimatedBackground />
+      {
+        !profile.created
+            ? <CreateProfile open={true} canClose={false}/>
+            : null
+      }
       <div className={styles.mainContainer}>
         <div className={styles.mainHeader}>
           <div className={styles.mainSectionContainer}>

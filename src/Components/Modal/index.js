@@ -1,10 +1,13 @@
 import React, {useState, useEffect, useRef} from "react";
 import styles from "./Modal.module.scss";
+import {useDispatch} from "react-redux";
+import {setPause} from "../../actions/main";
 
 const Modal = ModalComponent => {
     return function Component(props) {
-        const {open, setOpen} = props;
-        const [closingEnabled, setClosingEnabled] = useState(true);
+        const dispatch = useDispatch();
+        const {open, setOpen, canClose} = props;
+        const [closingEnabled, setClosingEnabled] = useState(props.hasOwnProperty('canClose') ? canClose : true);
 
         const closingEnabledRef = useRef(closingEnabled); //cuz simple state value doesnt update in listener
 
@@ -12,6 +15,8 @@ const Modal = ModalComponent => {
             if (e.keyCode === 27 && closingEnabledRef.current)
             {
                 setOpen(false);
+                dispatch(setPause(false));
+
                 document.body.removeEventListener('keyup', escListener)
             }
         };
@@ -19,7 +24,10 @@ const Modal = ModalComponent => {
         useEffect( () => {
             if (open)
             {
-                document.body.addEventListener('keyup', escListener);
+                if (closingEnabled)
+                {
+                    document.body.addEventListener('keyup', escListener);
+                }
             }
             else
             {

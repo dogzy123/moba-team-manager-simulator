@@ -1,0 +1,11 @@
+.newGameRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.modalTitle {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  margin: 4px 0;
+}

@@ -1,15 +1,28 @@
-import {ADD_COST, EXECUTE_COSTS, INIT_PLAYERS, INCREMENT_DAYS, SET_PAUSE, ADD_DAY_PROGRESS} from "../actions/main";
+import {
+    ADD_COST,
+    EXECUTE_COSTS,
+    INIT_PLAYERS,
+    INCREMENT_DAYS,
+    SET_PAUSE,
+    ADD_DAY_PROGRESS,
+    CREATE_PROFILE
+} from "../actions/main";
 
 const initialState = {
     days: 1,
     dayProgress: 0,
     players: [],
-    money: 2000,
     currency: '$',
     costs: [],
-    paused: false,
-    dayStarted: new Date(),
+    paused: true,
     pauseDate: null,
+    profile: {
+        managerName: '',
+        teamName: '',
+        money: 2000,
+        teamLogo: null,
+        created: false,
+    }
 };
 
 function reducer( state = initialState, action) {
@@ -33,7 +46,6 @@ function reducer( state = initialState, action) {
                 costs: [].concat(state.costs, [{...action.payload}]),
             };
 
-
         case EXECUTE_COSTS:
             return  {
                 ...state,
@@ -51,6 +63,17 @@ function reducer( state = initialState, action) {
             return {
                 ...state,
                 dayProgress: state.dayProgress + 1,
+            };
+
+        case CREATE_PROFILE:
+            return {
+                ...state,
+                paused: false,
+                profile: {
+                    ...state.profile,
+                    ...action.payload,
+                    created: true,
+                }
             };
 
         default:

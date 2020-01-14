@@ -48,3 +48,13 @@ export function addDayProgress () {
         type: ADD_DAY_PROGRESS,
     }
 }
+
+export const CREATE_PROFILE = 'CREATE PROFILE';
+export function createProfile({managerName, teamName, teamLogo}) {
+    return {
+        type: CREATE_PROFILE,
+        payload: {
+            managerName, teamName, teamLogo
+        }
+    }
+}

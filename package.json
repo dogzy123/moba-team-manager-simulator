@@ -35,9 +35,6 @@
     ],
     "directories": {
       "buildResources": "assets"
-    },
-    "win": {
-      "target": "squirrel"
     }
   },
   "eslintConfig": {

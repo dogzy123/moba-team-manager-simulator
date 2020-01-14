@@ -1,0 +1,15 @@
+.canvas {
+  border: 1px solid #000;
+  user-select: none;
+}
+
+.colorPickerInput {
+  height: 24px;
+  width: 24px;
+  border: none;
+  cursor: default;
+
+  &:focus {
+    outline: none;
+  }
+}

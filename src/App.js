@@ -23,16 +23,12 @@ function App({skipIntro}) {
     <React.Fragment>
       {
         showIntro
-          ? (
-            <KlesunProductionsIntro />
-          )
+          ? <KlesunProductionsIntro />
           : null
       }
       {
         !showIntro && introEnded
-          ? (
-            <MainGame />
-          )
+          ? <MainGame />
           : null
       }
     </React.Fragment>
