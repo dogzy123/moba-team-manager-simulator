@@ -5,8 +5,23 @@ import {
     INCREMENT_DAYS,
     SET_PAUSE,
     ADD_DAY_PROGRESS,
-    CREATE_PROFILE
+    CREATE_PROFILE, SET_MODAL, LOAD_SAVE, SET_MONEY
 } from "../actions/main";
+
+let costId = 0;
+
+const filterCosts = (origin, filterArr, days) => {
+    let filtered = [].concat( origin );
+
+    for (let i = 0; i < filterArr.length; i++)
+    {
+        filtered = filtered.filter( el => el.id !== filterArr[i].id );
+    }
+
+    filterArr.filter( el => days > el.triggerDays + 1 );
+
+    return filtered;
+};
 
 const initialState = {
     days: 1,
@@ -16,6 +31,7 @@ const initialState = {
     costs: [],
     paused: true,
     pauseDate: null,
+    modalOpen: false,
     profile: {
         managerName: '',
         teamName: '',
@@ -40,16 +56,36 @@ function reducer( state = initialState, action) {
                 dayProgress: 0,
             };
 
-        case ADD_COST:
+        case LOAD_SAVE:
             return {
                 ...state,
-                costs: [].concat(state.costs, [{...action.payload}]),
+                ...action.payload,
+            };
+
+        case SET_MONEY:
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    money: action.payload.amount,
+                }
+            };
+
+        case ADD_COST:
+            costId++;
+            return {
+                ...state,
+                costs: [].concat(state.costs, [{...action.payload, id: 'DTMS_COST_ID_' + costId}]),
             };
 
         case EXECUTE_COSTS:
             return  {
                 ...state,
-                costs: []
+                costs: [].concat(state.costs, action.payload.costs),//[].concat( filterCosts(state.costs, action.payload.costs, state.days) ),
+                profile: {
+                    ...state.profile,
+                    money: state.profile.money + action.payload.costs.reduce( (acc, curr) => acc + curr.amount, 0),
+                }
             };
 
         case SET_PAUSE:
@@ -57,6 +93,12 @@ function reducer( state = initialState, action) {
                 ...state,
                 paused: action.payload.paused,
                 pauseDate: action.payload.paused ? new Date() : state.pauseDate,
+            };
+
+        case SET_MODAL:
+            return {
+                ...state,
+                modalOpen: action.payload.open,
             };
 
         case ADD_DAY_PROGRESS:

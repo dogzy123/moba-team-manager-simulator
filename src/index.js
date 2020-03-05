@@ -10,7 +10,7 @@ const store = createStore(mainReducer);
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <App skipIntro />
     </Provider>,
     document.getElementById('dtms-root')
 );

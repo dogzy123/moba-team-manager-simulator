@@ -53,8 +53,8 @@
     ]
   },
   "devDependencies": {
+    "electron": "^7.1.9",
     "concurrently": "^5.0.0",
-    "electron": "^7.1.1",
     "electron-builder": "^22.1.0",
     "electron-builder-squirrel-windows": "^22.1.0",
     "electron-installer-windows": "^2.0.0",

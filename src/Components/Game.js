@@ -1,5 +1,4 @@
 import React, {useEffect, useState, Suspense} from "react";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import styles from "../styles/MainGame.module.scss";
 import SweetterImg from "../img/sweeterImg.jpg";
@@ -7,80 +6,16 @@ import classNames from "classnames";
 import generatePlayers from '../logic/generatePlayers';
 import {DAY_DURATION, POSITIONS} from "../logic/constants";
 import {useDispatch, useSelector} from "react-redux";
-import {addCost, initPlayers, incrementDays, setPause, addDayProgress} from "../actions/main";
+import {addCost, initPlayers, incrementDays, setPause, addDayProgress, executeCosts} from "../actions/main";
 import {CollapseIcon, ExpandIcon} from "./Icons";
 import AnimatedBackground from "./AnimatedBackground";
 import CreateProfile from "./CreateProfile";
+import GameMenu from "./GameMenu";
+import PlayerStats from "./PlayerStats";
 
 const FindPlayerModal = React.lazy( () => {
   return import('./FindPlayerModal');
 } );
-
-function PlayerStats() {
-  const {days, money, currency, costs, paused, dayProgress} = useSelector( state => ({
-    days: state.days,
-    money: state.profile.money,
-    currency: state.currency,
-    costs: state.costs,
-    paused: state.paused,
-    dayProgress: state.dayProgress,
-  }) );
-
-  const [triggerCosts, setTriggerCosts] = useState([]);
-
-  useEffect( () => {
-    if (!paused)
-    {
-      if (costs.length)
-      {
-        setTriggerCosts([].concat(costs.filter( cost => cost.triggerDays === days )));
-      }
-    }
-  }, [days, paused]);
-
-  useEffect( () => {
-    if (triggerCosts.length)
-    {
-        //REDUX THUNK
-    }
-  }, [triggerCosts] );
-
-  return (
-      <div className={styles.playerStats}>
-        <div className={styles.days}>
-          <span className={styles.shadowText}>Day: {days}</span>
-        </div>
-        <div className={styles.dayProgress}>
-          <CircularProgressbar
-              value={dayProgress}
-              strokeWidth={50}
-              styles={buildStyles({
-                counterClockwise: true,
-                strokeLinecap: "butt",
-                pathTransitionDuration: 0.01,
-                pathColor: 'rgb(130, 48, 48)'
-              })}/>
-        </div>
-        <div className={styles.money}>
-          <span className={styles.shadowText}>Money: {money}{currency}</span>
-        </div>
-        <div className={styles.costs}>
-          {
-            triggerCosts && triggerCosts.length
-              ? triggerCosts.map( (cost, i) => {
-                return (
-                    <div key={i} className={styles.cost}>
-                      <div className={styles.costAmount}>{cost.amount}{currency}</div>
-                      <div className={styles.costDescription}>{cost.description}</div>
-                    </div>
-                );
-                } )
-              : null
-          }
-        </div>
-      </div>
-  );
-}
 
 function Game () {
   const dispatch = useDispatch();
@@ -99,10 +34,12 @@ function Game () {
     setSweetterOpen( prevState => !prevState );
   };
 
+  // Generate players
   useEffect( () => {
     dispatch( initPlayers(generatePlayers()) );
   }, [] );
 
+  // Day progress
   useEffect( () => {
     let intervalId;
 
@@ -126,14 +63,11 @@ function Game () {
     };
   }, [dayProgress, paused] );
 
+  // Weekly costs
   useEffect( () => {
-    if (!paused)
+    if (!paused && !(days % 7))
     {
-      // Weekly costs
-      if (days % 7 === 0)
-      {
-        dispatch( addCost({amount: -200, description: "Weekly costs.", triggerDays: days + 1}) );
-      }
+      dispatch( addCost({amount: -200, description: "Weekly costs.", triggerDays: days + 1}) );
     }
   }, [days]);
 
@@ -155,6 +89,7 @@ function Game () {
 
   return (
     <div className={styles.main}>
+      <GameMenu />
       <AnimatedBackground />
       {
         !profile.created

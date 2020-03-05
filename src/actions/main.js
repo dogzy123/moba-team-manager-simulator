@@ -15,6 +15,26 @@ export function incrementDays() {
     }
 }
 
+export const LOAD_SAVE = 'LOAD_SAVE';
+export function loadSave (save) {
+    return {
+        type: LOAD_SAVE,
+        payload: {
+            ...save
+        }
+    };
+}
+
+export const SET_MONEY = 'SET_MONEY';
+export function setMoney(amount) {
+    return {
+        type: SET_MONEY,
+        payload: {
+            amount,
+        }
+    }
+}
+
 export const  ADD_COST = 'ADD COST';
 export function addCost({amount, description, triggerDays = false}) {
     return {
@@ -26,9 +46,12 @@ export function addCost({amount, description, triggerDays = false}) {
 }
 
 export const EXECUTE_COSTS = 'EXECUTE COSTS';
-export function executeCosts() {
+export function executeCosts(costs) {
     return {
         type: EXECUTE_COSTS,
+        payload: {
+            costs,
+        }
     }
 }
 
@@ -40,6 +63,16 @@ export function setPause(paused) {
             paused,
         }
     }
+}
+
+export const SET_MODAL = 'SET_MODAL';
+export function setModalOpen(bool) {
+    return {
+        type: SET_MODAL,
+        payload: {
+            open: bool,
+        }
+    };
 }
 
 export const ADD_DAY_PROGRESS = 'ADD DAY PROGRESS';

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import styles from "./Modal.module.scss";
 import {useDispatch} from "react-redux";
-import {setPause} from "../../actions/main";
+import {setPause, setModalOpen} from "../../actions/main";
 
 const Modal = ModalComponent => {
     return function Component(props) {
@@ -24,6 +24,7 @@ const Modal = ModalComponent => {
         useEffect( () => {
             if (open)
             {
+                dispatch( setModalOpen(true) );
                 if (closingEnabled)
                 {
                     document.body.addEventListener('keyup', escListener);
@@ -31,6 +32,7 @@ const Modal = ModalComponent => {
             }
             else
             {
+                dispatch( setModalOpen(false) );
                 document.body.removeEventListener('keyup', escListener);
             }
 
